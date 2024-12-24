@@ -1,38 +1,28 @@
-# -Dataslush 
-Hey there!!
-start a working area (see also: git help tutorial)
-   clone     Clone a repository into a new directory
-   init      Create an empty Git repository or reinitialise an existing one
+//custom client_id script
+<script>
+function getClientId() {
+  // Check if client_id cookie exists
+  var clientId = document.cookie.match('(?:^|;)\\s*client_id=([^;]*)');
 
-work on the current change (see also: git help everyday)
-   add       Add file contents to the index
-   mv        Move or rename a file, a directory, or a symlink
-   restore   Restore working tree files
-   rm        Remove files from the working tree and from the index
+  if (!clientId) {
+    // If client_id cookie doesn't exist, generate a new one
+    var timestamp = Date.now().toString();  // Current timestamp
+    var randomNumber = Math.floor(Math.random() * 10000000000);  // Random number
+    clientId = 'GA1.1.' + timestamp + '.' + randomNumber;  // Format as GA1.1.<timestamp>.<random_number>
+    
+    // Set the client_id cookie with a 1-year expiration
+    var expires = new Date();
+    expires.setFullYear(expires.getFullYear() + 1);  // 1-year expiration
+    document.cookie = 'client_id=' + encodeURIComponent(clientId) + '; expires=' + expires.toUTCString() + '; path=/';
+  } else {
+    // If cookie matches, retrieve the value from the match
+    clientId = decodeURIComponent(clientId[1]);
+  }
 
-examine the history and state (see also: git help revisions)
-   bisect    Use binary search to find the commit that introduced a bug
-   diff      Show changes between commits, commit and working tree, etc
-   grep      Print lines matching a pattern
-   log       Show commit logs
-   show      Show various types of objects
-   status    Show the working tree status
-
-grow, mark and tweak your common history
-   branch    List, create, or delete branches
-   commit    Record changes to the repository
-   merge     Join two or more development histories together
-   rebase    Reapply commits on top of another base tip
-   reset     Reset current HEAD to the specified state
-   switch    Switch branches
-   tag       Create, list, delete or verify a tag object signed with GPG
-
-collaborate (see also: git help workflows)
-   fetch     Download objects and refs from another repository
-   pull      Fetch from and integrate with another repository or a local branch
-   push      Update remote refs along with associated objects
-
-
-
-
-   
+  // Remove 'GA1.1.' and format the client ID as .timestamp.random_number.
+  var formattedClientId = clientId.replace('GA1.1.', '');  // Remove 'GA1.1.'
+  
+  // Return the formatted client ID with dots before and after
+  return '.' + formattedClientId + '.';  // Format as .timestamp.random_number.
+}
+</script>
